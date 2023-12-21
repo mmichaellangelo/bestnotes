@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalnia&family=Poppins&display=swap');
+
+:root {
+    --ff-header: 'Kalnia', serif;
+    --ff-body: 'Poppins', sans-serif;
+    color: white;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    background-color: rgb(1, 0, 63);
+}
