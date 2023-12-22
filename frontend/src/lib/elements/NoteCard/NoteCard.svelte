@@ -12,9 +12,14 @@
 </div>
 
 <style>
+
     .notecard_container {
         display: flex;
         flex-direction: column;
-        max-width: 10rem;
+        max-width: 30rem;
+        padding: 1rem;
+        margin: 0.5rem;
+        background-color: rgb(10, 10, 116);
+        border-radius: 1rem;
     }
 </style>

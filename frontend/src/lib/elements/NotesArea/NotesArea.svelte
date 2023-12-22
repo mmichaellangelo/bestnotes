@@ -60,15 +60,9 @@
         grid-template-columns: 30% 30% 30%;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 1rem;
         justify-content: center;
     }
 
-    .note_container {
-        display: flex;
-        max-width: 30rem;
-        padding: 1rem;
-        margin: 0.5rem;
-        background-color: rgb(10, 10, 116);
-        border-radius: 1rem;
-    }
+    
 </style>

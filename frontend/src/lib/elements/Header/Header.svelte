@@ -1,7 +1,9 @@
-<div id="header_container">
-    <div id="site_icon"></div>
-    <h1 id="site_title">BestNotes</h1>
-</div>
+<a href="/">
+    <div id="header_container">
+        <div id="site_icon"></div>
+        <h1 id="site_title">BestNotes</h1>
+    </div>
+</a>
 
 <style>
     #header_container {
@@ -23,5 +25,10 @@
 
     #site_title {
         font-family: var(--ff-header);
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
     }
 </style>

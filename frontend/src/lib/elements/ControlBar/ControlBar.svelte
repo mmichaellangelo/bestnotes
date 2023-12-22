@@ -80,7 +80,7 @@
 </script>
 
 <div id="control_bar_container">
-    <p>Active Journal:</p>
+    <h3>Journal:</h3>
     <select name="Journal" id="journal_select">
         {#each journals as journal}
             <option value={journal.id}>{journal.title}</option>
@@ -92,7 +92,22 @@
     #control_bar_container {
         display: flex;
         flex-direction: row;
+        align-items: center;
         padding: 0.5rem;
-        background-color: blue;
+        background-color: rgb(13, 13, 87);
+    }
+
+    #control_bar_container select {
+        background: none;
+        color: white;
+        height: fit-content;
+        padding: 0.5rem;
+    }
+
+    option {
+        background-color: darkblue;
+        color: white;
+        padding: 0.5rem;
+        height: fit-content;
     }
 </style>
