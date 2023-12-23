@@ -7,18 +7,18 @@ export interface Note {
     body: string,
     date_created: Date,
     date_edited: Date,
-    author: Author
+    author: User
 }
 
 export interface Journal {
     notes: Note[],
     date_created: Date,
-    author: Author,
+    author: User,
     title: string,
     id: number
 }
 
-export interface Author {
+export interface User {
     username: string,
     userID: number,
     date_created: Date,
@@ -46,7 +46,7 @@ export function isJournal(object: unknown): object is Journal {
         && Object.prototype.hasOwnProperty.call(object, "id")
 }
 
-export function isAuthor(object: unknown): object is Author {
+export function isUser(object: unknown): object is User {
     return Object.prototype.hasOwnProperty.call(object, "username")
         && Object.prototype.hasOwnProperty.call(object, "userID")
         && Object.prototype.hasOwnProperty.call(object, "date_created")
@@ -64,6 +64,4 @@ export class DatabaseError extends Error {
       this.name = this.constructor.name;
       // Your custom logic here
     }
-  }
-  
-  
+}

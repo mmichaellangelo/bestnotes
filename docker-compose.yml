@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  webapp_sveltekit:
+    container_name: webapp_sveltekit
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - 5173:5173
+      - 24678:24678
+
+  backend_node_api:
+    container_name: backend_node_api
+    restart: always
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - 3000:3000
+
+
+  # backend_postgres:
+  #   image: postgres:latest
+  #   container_name: backend_postgres
+    
