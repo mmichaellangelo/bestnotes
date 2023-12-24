@@ -3,7 +3,7 @@ version: "3.8"
 services:
   webapp_sveltekit:
     container_name: webapp_sveltekit
-    restart: always
+    restart: unless-stopped
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
 
   backend_node_api:
     container_name: backend_node_api
-    restart: always
+    restart: unless-stopped
     build:
       context: ./backend
     volumes:
@@ -24,8 +24,27 @@ services:
     ports:
       - 3000:3000
 
+  backend_postgres:
+    image: postgres:16.1-alpine3.19
+    container_name: backend_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mike
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: db
+      
 
-  # backend_postgres:
-  #   image: postgres:latest
-  #   container_name: backend_postgres
+    ports:
+      - 5432:5432
+  
+  db_adminer:
+    image: adminer
+    restart: always
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - 8080:8080
+
+volumes:
+  pg_data:
     

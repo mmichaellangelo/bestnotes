@@ -1,28 +1,29 @@
-CREATE TABLE users (
-    id SERIAL UNIQUE,
-    username VARCHAR(64),
-    password VARCHAR(256),
-    date_created DATE,
+CREATE TABLE account (
+    id SERIAL UNIQUE NOT NULL,
+    username VARCHAR(64) UNIQUE NOT NULL,
+    password VARCHAR(256) NOT NULL,
+    date_created TIMESTAMP NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE UNIQUE INDEX idx_user_username ON user (username);
-
-CREATE TABLE notes (
-    id SERIAL,
-    author_id INT,
-    title VARCHAR(256),
-    body TEXT,
-    date_created DATE,
-    date_edited DATE,
+CREATE TABLE journal (
+    id SERIAL UNIQUE NOT NULL,
+    title VARCHAR(256) NOT NULL,
+    author_id INT NOT NULL,
+    date_created TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (author_id) REFERENCES user(id)
+    FOREIGN KEY (author_id) REFERENCES account(id)
 );
 
-CREATE TABLE journals (
-    id SERIAL,
+CREATE TABLE note (
+    id SERIAL UNIQUE NOT NULL,
+    author_id INT NOT NULL,
+    journal_id INT NOT NULL,
     title VARCHAR(256),
-    author_id INT,
+    body TEXT,
+    date_created TIMESTAMP NOT NULL,
+    date_edited TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY (author_id) REFERENCES user(id)
+    FOREIGN KEY (author_id) REFERENCES account(id),
+    FOREIGN KEY (journal_id) REFERENCES journal(id)
 );

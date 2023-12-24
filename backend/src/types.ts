@@ -26,6 +26,11 @@ export interface User {
     name: string
 }
 
+export interface UserUpdateData {
+    bio?: string;
+    name?: string;
+}
+
 /*
 *** TYPE CHECKERS ***
 */
