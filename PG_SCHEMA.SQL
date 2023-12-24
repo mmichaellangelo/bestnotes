@@ -3,6 +3,7 @@ CREATE TABLE account (
     username VARCHAR(64) UNIQUE NOT NULL,
     password VARCHAR(256) NOT NULL,
     date_created TIMESTAMP NOT NULL,
+    name VARCHAR(128) NOT NULL,
     PRIMARY KEY (id)
 );
 

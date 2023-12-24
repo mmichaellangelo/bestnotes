@@ -2,7 +2,8 @@ import { pool } from "./db_connect";
 import { hashPassword } from "./pass_hash";
 import { User, Note, Journal,
          isNote, isJournal, isUser, 
-         DatabaseError, UserUpdateData } from "./types"
+         DatabaseError, UserNotFoundError, 
+         UserUpdateData } from "./types"
 import { toPostgresTimestamp } from "./util";
 
 /*
@@ -12,42 +13,54 @@ import { toPostgresTimestamp } from "./util";
 export async function getUserByID(id: number): Promise<User> {
     try {
         const result = await pool.query("SELECT * FROM account WHERE id = $1", [id]);
-        const user = result.rows[0];
-
-        if (isUser(user)) {
-            return user;
-        } else {
-            throw new DatabaseError("Error retrieving user");
+        try {
+            console.log(result.rows[0]);
+            const user = result.rows[0];
+    
+            if (isUser(user)) {
+                return user;
+            } else {
+                throw new DatabaseError("Error retrieving user");
+            }
+        } catch (error: any) {
+            throw new DatabaseError("Error: could not get user");
         }
-    } catch (error) {
-        throw new DatabaseError("Error: could not get user");
+    } catch (error: any) {
+        throw new UserNotFoundError(`User not found\n ${error.message}`);
     }
 }
 
 export async function getUserByUsername(username: string): Promise<User> {
     try {
-        const result = await pool.query("SELECT * FROM account WHERE id = $1", [username]);
-        const user = result.rows[0];
-
-        if (isUser(user)) {
-            return user;
-        } else {
-            throw new DatabaseError("Error retrieving user");
+        const result = await pool.query("SELECT * FROM account WHERE username = $1", [username]);
+        try {
+            console.log(result.rows[0]);
+            const user = result.rows[0];
+    
+            if (isUser(user)) {
+                return user;
+            } else {
+                throw new DatabaseError("Error retrieving user");
+            }
+        } catch (error: any) {
+            throw new DatabaseError("Error: could not get user");
         }
-    } catch (error) {
-        throw new DatabaseError("Error: could not get user");
+    } catch (error: any) {
+        throw new UserNotFoundError(`User not found\n ${error.message}`);
     }
 }
 
-export async function createUser(username: string, password_plaintext: string, name: string, bio: string, ) {
+export async function createUser(username: string, password_plaintext: string, name: string) {
     const password_hashed = await hashPassword(password_plaintext);
+    console.log(`Hashed password: ${password_hashed}`)
     const date_unformatted = new Date();
     const date_formatted = toPostgresTimestamp(date_unformatted);
-    
+    console.log(`Date formatted: ${date_formatted}`);
     try {
         const result = await pool.query(`INSERT INTO account 
-            (username, password, date_created) 
-            VALUES ($1, $2, $3)`, [username, password_hashed, date_formatted])
+                                        (username, password, date_created, name) 
+                                        VALUES ($1, $2, $3, $4)`, 
+                                        [username, password_hashed, date_formatted, name]);
     } catch (error) {
         throw new DatabaseError("Error creating user");
     }
@@ -71,29 +84,16 @@ export async function deleteUserByID(id: number): Promise<boolean> {
     }
 }
 
-export async function updateUserInfo(data: UserUpdateData, id: number): Promise<boolean> {
+export async function updateUserName(data: UserUpdateData, id: number) {
     try {
         const user = await getUserByID(id);
         if (isUser(user)) {
-            if (data.bio && data.name) {
-                const result = await pool.query(`UPDATE account 
-                                                SET bio=$1, name=$2 
-                                                WHERE id=$3`, 
-                                                [data.bio, data.name, id]);
-            } else if (data.bio) {
-                const result = await pool.query(`UPDATE account 
-                                                SET bio=$1 
-                                                WHERE id=$2`, 
-                                                [data.bio, id]);
-            } else if (data.name) {
-                const result = await pool.query(`UPDATE account 
-                                                SET name=$1 
-                                                WHERE id=$2`, 
-                                                [data.name, id]);
-            }
-            return true;
-        } else {
-            return false;
+            const result = await pool.query(`UPDATE account 
+                                            SET name=$1 
+                                            WHERE id=$2`, 
+                                            [data.name, id]);
+            } else {
+                throw new DatabaseError("Error updating user");
         }
     } catch (error) {
         throw new DatabaseError("Error updating user")

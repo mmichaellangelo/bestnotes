@@ -20,9 +20,8 @@ export interface Journal {
 
 export interface User {
     username: string,
-    userID: number,
+    id: number,
     date_created: Date,
-    bio: string,
     name: string
 }
 
@@ -53,9 +52,8 @@ export function isJournal(object: unknown): object is Journal {
 
 export function isUser(object: unknown): object is User {
     return Object.prototype.hasOwnProperty.call(object, "username")
-        && Object.prototype.hasOwnProperty.call(object, "userID")
+        && Object.prototype.hasOwnProperty.call(object, "id")
         && Object.prototype.hasOwnProperty.call(object, "date_created")
-        && Object.prototype.hasOwnProperty.call(object, "bio")
         && Object.prototype.hasOwnProperty.call(object, "name")
 }
 
@@ -64,6 +62,14 @@ export function isUser(object: unknown): object is User {
 */
 
 export class DatabaseError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = this.constructor.name;
+      // Your custom logic here
+    }
+}
+
+export class UserNotFoundError extends Error {
     constructor(message: string) {
       super(message);
       this.name = this.constructor.name;

@@ -3,20 +3,20 @@ export interface Note {
     body: string,
     date_created: Date,
     date_edited: Date,
-    author: Author
+    author: User
 }
 
 export interface Journal {
     notes: Note[],
     date_created: Date,
-    author: Author,
+    author: User,
     title: string,
     id: number
 }
 
-export interface Author {
+export interface User {
     username: string,
-    userID: number,
+    id: number,
     date_created: Date,
     bio: string,
     name: string

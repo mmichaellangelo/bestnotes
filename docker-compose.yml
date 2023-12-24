@@ -32,16 +32,12 @@ services:
       POSTGRES_USER: mike
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: db
-      
-
     ports:
       - 5432:5432
   
   db_adminer:
     image: adminer
     restart: always
-    volumes:
-      - pg_data:/var/lib/postgresql/data/pgdata
     ports:
       - 8080:8080
 
