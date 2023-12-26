@@ -3,12 +3,34 @@ import { hashPassword } from "./pass_hash";
 import { User, Note, Journal,
          isNote, isJournal, isUser, 
          DatabaseError, UserNotFoundError, 
-         UserUpdateData } from "./types"
+         UserUpdateData, 
+         InvalidFormatError} from "./types"
 import { toPostgresTimestamp } from "./util";
 
 /*
 *|  USER FUNCTIONS
 */
+
+
+export async function getUser(usernameorid: string): Promise<User> {
+    let user: User;
+    if (Number.isNaN(parseInt(usernameorid))) { // if username
+        try {
+            user = await getUserByUsername(usernameorid);
+            return user;
+        } catch (error: any) {
+            throw new DatabaseError(`${error.name}: ${error.message}`);
+        }
+    } else { // if userID
+        try {
+            user = await getUserByID(parseInt(usernameorid));
+            return user;
+        } catch (error: any) {
+            throw new DatabaseError(`${error.name}: ${error.message}`);
+        }
+    }
+
+}
 
 export async function getUserByID(id: number): Promise<User> {
     try {
@@ -26,7 +48,7 @@ export async function getUserByID(id: number): Promise<User> {
             throw new DatabaseError("Error: could not get user");
         }
     } catch (error: any) {
-        throw new UserNotFoundError(`User not found\n ${error.message}`);
+        throw new UserNotFoundError(`${error.name}: ${error.message}`);
     }
 }
 
@@ -50,7 +72,10 @@ export async function getUserByUsername(username: string): Promise<User> {
     }
 }
 
-export async function createUser(username: string, password_plaintext: string, name: string) {
+export async function createUser(email: string, username: string, password_plaintext: string, name: string) {
+    if (Number.isNaN(username.charAt(0))) {
+        throw new InvalidFormatError("Username cannot start with a number");
+    }
     const password_hashed = await hashPassword(password_plaintext);
     console.log(`Hashed password: ${password_hashed}`)
     const date_unformatted = new Date();
@@ -58,30 +83,31 @@ export async function createUser(username: string, password_plaintext: string, n
     console.log(`Date formatted: ${date_formatted}`);
     try {
         const result = await pool.query(`INSERT INTO account 
-                                        (username, password, date_created, name) 
+                                        (username, date_created, name, email) 
                                         VALUES ($1, $2, $3, $4)`, 
-                                        [username, password_hashed, date_formatted, name]);
+                                        [username, date_formatted, name, email]);
+        console.log(result);
+        
     } catch (error) {
         throw new DatabaseError("Error creating user");
     }
 }
 
-export async function deleteUserByID(id: number): Promise<boolean> {
+export async function deleteUserByID(id: number) {
     try {
-        const user = getUserByID(id);
+        const user = await getUserByID(id);
         if (isUser(user)) {
-            const result = await pool.query("DELETE * FROM account WHERE id=$1", [id]);
-            if (result !== (null || undefined)) {
-                return true;
-            } else {
-                return false;
+            try {
+                const result = await pool.query("DELETE FROM account WHERE id=$1", [id]);
+                console.log(result);
+            } catch (error: any) {
+                throw new DatabaseError(`${error.name}: ${error.message}`);
             }
-        } else {
-            return false;
         }
-    } catch (error) {
-        throw new DatabaseError("Error deleting user");
+    } catch (error: any) {
+        throw new DatabaseError(`${error.name}: ${error.message}`);
     }
+    
 }
 
 export async function updateUserName(data: UserUpdateData, id: number) {
@@ -197,6 +223,28 @@ export async function getJournalByID(id: number): Promise<Journal> {
         }
     } catch (error) {
         throw new DatabaseError("Internal Error");
+    }
+}
+
+export async function getAllJournalsByUserID(userid: number): Promise<Journal[]> {
+    try {
+        const result = await pool.query(`SELECT * FROM journal
+                                        WHERE author_id=$1`,
+                                        [userid]);
+        return result.rows;
+    } catch (error: any) {
+        throw new DatabaseError(`${error.name}: ${error.message}`);
+    }
+}
+
+export async function renameJournal(new_title: string, journal_id: number) {
+    try {
+        const result = await pool.query(`UPDATE journal
+                                        WHERE id=$1
+                                        SET title=$2`,
+                                        [journal_id, new_title]);
+    } catch (error: any) {
+        throw new DatabaseError(`${error.name}: ${error.message}`);
     }
 }
 

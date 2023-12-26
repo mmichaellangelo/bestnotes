@@ -76,3 +76,11 @@ export class UserNotFoundError extends Error {
       // Your custom logic here
     }
 }
+
+export class InvalidFormatError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = this.constructor.name;
+      // Your custom logic here
+    }
+}
