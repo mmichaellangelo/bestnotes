@@ -1,46 +1,11 @@
 <script lang="ts">
-    import type { Author, Note } from "$lib/types/types";
+    import type { User, Note } from "$lib/types/types";
+    import type { LayoutData } from "../../../routes/$types";
     import NoteCard from "../NoteCard/NoteCard.svelte";
     
-    export const dateNOW = new Date();
+    export let data: LayoutData;
 
-    export const michael: Author = {
-        bio: "I am awesome",
-        date_created: dateNOW,
-        name: "Mikey",
-        userID: 1,
-        username: "mmichaellangelo"
-    }
-    let notes: Note[] = [
-        {
-            author: michael,
-            title: "A note",
-            body: "Hello this is a note",
-            date_created: dateNOW,
-            date_edited: dateNOW,
-        },
-        {
-            author: michael,
-            title: "A new note",
-            body: "Hello this is another note that is longer",
-            date_created: dateNOW,
-            date_edited: dateNOW,
-        },
-        {
-            author: michael,
-            title: "A third note",
-            body: "Hello this is aNOTHER note yayayaya",
-            date_created: dateNOW,
-            date_edited: dateNOW,
-        },
-        {
-            author: michael,
-            title: "A wow a new wow",
-            body: "Hello this HELLO howo lslsls",
-            date_created: dateNOW,
-            date_edited: dateNOW,
-        }
-    ]
+    
 
 </script>
 

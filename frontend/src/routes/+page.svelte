@@ -8,10 +8,10 @@
     import type { Writable } from "svelte/store";
 
     const user: Writable<User> = getContext('user');
+
 </script>
 
 <ControlBar />
 <NewNoteDialog />
 <NotesArea />
 
-<p>{$user.name}</p>

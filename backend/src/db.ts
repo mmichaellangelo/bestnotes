@@ -170,6 +170,18 @@ export async function updateNoteBody(new_body: string, id: number) {
     }
 }
 
+export async function updateNoteTitleAndBody(new_title: string, new_body: string, id: number) {
+    try {
+        const result = await pool.query(`UPDATE note 
+                                        SET title=$1, 
+                                        body=$2, 
+                                        WHERE id=$3`,
+                                        [new_title, new_body, id]);
+    } catch (error) {
+        throw new DatabaseError("Error updating title");
+    }
+}
+
 /*
 *|  JOURNAL FUNCTIONS
 */

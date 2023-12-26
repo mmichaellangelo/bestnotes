@@ -4,6 +4,8 @@ services:
   webapp_sveltekit:
     container_name: webapp_sveltekit
     restart: unless-stopped
+    depends_on: 
+      - backend_node_api
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -12,11 +14,13 @@ services:
       - /app/node_modules
     ports:
       - 5173:5173
-      - 24678:24678
+#      - 24678:24678
 
   backend_node_api:
     container_name: backend_node_api
     restart: unless-stopped
+    depends_on: 
+      - backend_postgres
     build:
       context: ./backend
     volumes:
@@ -32,12 +36,17 @@ services:
       POSTGRES_USER: mike
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - pg_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
   
   db_adminer:
     image: adminer
     restart: always
+    depends_on: 
+      - backend_postgres
     ports:
       - 8080:8080
 
