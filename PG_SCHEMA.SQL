@@ -1,5 +1,5 @@
 CREATE TABLE account (
-    id SERIAL UNIQUE NOT NULL,
+    id SERIAL,
     email VARCHAR(256),
     username VARCHAR(64) UNIQUE NOT NULL,
     name VARCHAR(128) NOT NULL,
@@ -7,19 +7,21 @@ CREATE TABLE account (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE journal (
-    id SERIAL UNIQUE NOT NULL,
+CREATE TABLE folder (
+    id SERIAL,
+    parent_folder_id INT,
     title VARCHAR(256) NOT NULL,
     author_id INT NOT NULL,
     date_created TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (author_id) REFERENCES account(id)
+    FOREIGN KEY (author_id) REFERENCES account(id),
+    FOREIGN KEY (parent_folder_id) REFERENCES folder(id) ON DELETE CASCADE
 );
 
 CREATE TABLE note (
-    id SERIAL UNIQUE NOT NULL,
+    id SERIAL,
     author_id INT NOT NULL,
-    journal_id INT NOT NULL,
+    folder_id INT,
     title VARCHAR(256),
     body TEXT,
     tags VARCHAR(64)[],
@@ -27,7 +29,7 @@ CREATE TABLE note (
     date_edited TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (author_id) REFERENCES account(id),
-    FOREIGN KEY (journal_id) REFERENCES journal(id)
+    FOREIGN KEY (folder_id) REFERENCES folder(id)
 );
 
 CREATE TABLE account_auth (
@@ -38,10 +40,10 @@ CREATE TABLE account_auth (
     FOREIGN KEY (id) REFERENCES account(id)
 );
 
-CREATE TABLE auth_tokens (
+CREATE TABLE auth_token (
     id SERIAL UNIQUE,
     token TEXT,
-    user_id INT UNIQUE,
+    account_id INT UNIQUE,
     PRIMARY KEY (id),
-    FOREIGN KEY (id) REFERENCES account(id)
+    FOREIGN KEY (account_id) REFERENCES account(id)
 );

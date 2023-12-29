@@ -35,11 +35,12 @@ export interface UserUpdateData {
 */
 
 export function isNote(object: unknown): object is Note {
-    return Object.prototype.hasOwnProperty.call(object, "title")
+    return Object.prototype.hasOwnProperty.call(object, "id")
+        && Object.prototype.hasOwnProperty.call(object, "author_id")
+        && Object.prototype.hasOwnProperty.call(object, "title")
         && Object.prototype.hasOwnProperty.call(object, "body")
         && Object.prototype.hasOwnProperty.call(object, "date_created")
-        && Object.prototype.hasOwnProperty.call(object, "date_edited")
-        && Object.prototype.hasOwnProperty.call(object, "author")
+        
 }
 
 export function isJournal(object: unknown): object is Journal {

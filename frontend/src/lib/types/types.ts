@@ -3,7 +3,7 @@ export interface Note {
     body: string,
     date_created: Date,
     date_edited: Date,
-    author: User
+    author_id: number
 }
 
 export interface Journal {

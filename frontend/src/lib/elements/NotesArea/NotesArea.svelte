@@ -1,21 +1,22 @@
 <script lang="ts">
     import type { User, Note } from "$lib/types/types";
+    import type { Writable } from "svelte/store";
     import type { LayoutData } from "../../../routes/$types";
     import NoteCard from "../NoteCard/NoteCard.svelte";
+    import { getContext } from "svelte";
     
-    export let data: LayoutData;
-
+    const notes: Writable<Note[]> = getContext('notes');
     
 
 </script>
 
 <div id="notes_area_container">
     
-        {#each notes as note}
-        <div class="note_container">
-            <NoteCard props={note} />
-        </div>
-        {/each}
+    {#each $notes as note}
+    <div class="note_container">
+        <NoteCard props={note} />
+    </div>
+    {/each}
     
 </div>
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { createNote, createUser, deleteUserByID, getNotesByUserID, getUserByID, getUserByUsername, updateNoteBody, updateNoteTitle, updateNoteTitleAndBody } from "./db";
+import { createJournal, createNote, createUser, deleteUserByID, getNotesByUserID, getUserByID, getUserByUsername, updateNoteBody, updateNoteTitle, updateNoteTitleAndBody } from "./db";
 import { User } from "./types";
 
 const cors = require("cors");
@@ -88,13 +88,10 @@ app.delete("/users/:userid", async (req, res) => {
 // Get all notes by user ID
 app.get("/users/:userid/notes", async (req, res) => {
     try {
-        console.log(`Get UserID: ${req.params.userid}`)
         const notes = await getNotesByUserID(parseInt(req.params.userid));
-        res.status(200).json({
-            notes: notes
-        })
+        res.status(200).send(notes);
     } catch (error: any) {
-        res.status(500).send(error.message);
+        res.status(500).send(`${error.name}: ${error.message}`);
     }
 })
 
@@ -106,8 +103,8 @@ app.post("/users/:userid/notes", async (req, res) => {
     try {
         await createNote(title, body, parseInt(req.params.userid));
         res.status(200).send("Note created");
-    } catch (error) {
-        res.status(500).send("Error creating note");
+    } catch (error: any) {
+        res.status(500).send(`${error.name}: ${error.message}`);
     }
 })
 
@@ -166,6 +163,15 @@ app.get("/users/:userid/journals", (req, res) => {
     }
 })
 
+// Create a journal
+app.post("/users/:userid/journals", (req, res) => {
+    try {
+        createJournal(req.body.title, parseInt(req.params.userid));
+        res.status(200).send("Journal created");
+    } catch (error: any) {
+        res.status(500).send(`${error.name}: ${error.message}`);
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)

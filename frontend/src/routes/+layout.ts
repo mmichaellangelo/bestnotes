@@ -8,14 +8,17 @@ export async function load({ fetch }) {
     } else {
         
         try {
-            const response = await fetch(`http://backend_node_api:3000/user/${userID}`);
-            const data = await response.json();
-            console.log(data);
+            const userResponse = await fetch(`http://backend_node_api:3000/users/${userID}`);
+            const userData = await userResponse.json();
+            const notesResponse = await fetch (`http://backend_node_api:3000/users/${userID}/notes`)
+            const notesData = await notesResponse.json();
+            console.log(notesData);
             return {
-                user: data
+                user: userData,
+                notes: notesData
             }
         } catch (error: any) {
-            console.log(`ERRRRRRR: ${error.message}`);
+            console.log(`FETCH ERROR: ${error.message}`);
         }
 
         return {

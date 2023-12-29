@@ -2,12 +2,17 @@
     import type { Note } from "$lib/types/types";
 
     export let props: Note;
+
+    let date = props.date_created;
+
+    $: {
+
+    }
 </script>
 
 <div class="notecard_container">
     <h3>{props.title}</h3>
-    <span>{props.author.username}</span>
-    <p>{props.date_edited.toDateString()}</p>
+    <p>{date}</p>
     <p>{props.body}</p>
 </div>
 

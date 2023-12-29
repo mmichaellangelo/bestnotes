@@ -146,6 +146,7 @@ export async function getNoteByID(id: number): Promise<Note> {
 }
 
 export async function getNotesByUserID(id: number): Promise<Note[]> {
+    console.log(`GETTING NOTES BY ID: ${id}`);
     try {
         const result = await pool.query("SELECT * FROM note WHERE author_id=$1", [id]);
         const notes = result.rows;
@@ -165,10 +166,9 @@ export async function createNote(title: string, body: string, author_id: number)
 
     try {
         const result = await pool.query(`INSERT INTO note 
-                                        (title, body, author_id) 
-                                        VALUES ($1, $2, $3)`, 
-                                        [title, body, author_id]);
-        return true;
+                                        (title, body, author_id, date_created) 
+                                        VALUES ($1, $2, $3, $4)`, 
+                                        [title, body, author_id, date_formatted]);
     } catch (error) {
         throw new DatabaseError("Error creating note");
     }

@@ -10,8 +10,11 @@
 
     const user = writable();
     $: user.set(data.user);
-
     setContext('user', user);
+
+    const notes = writable();
+    $: notes.set(data.notes);
+    setContext('notes', notes);
 </script>
 
 <Header />
