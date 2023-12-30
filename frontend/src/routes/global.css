@@ -1,13 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Kalnia&family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Kalnia&family=Montserrat&family=Poppins&display=swap');
+
+/* 
+    font-family: 'Inter', sans-serif;
+    font-family: 'Kalnia', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif; 
+*/
 
 :root {
-    --ff-header: 'Kalnia', serif;
-    --ff-body: 'Poppins', sans-serif;
-    color: white;
+    --ff-header: 'Poppins', sans-serif;
+    --ff-body: 'Montserrat', sans-serif;
+
+    /* THEME COLORS */
+    --gray: #5D737E;
+    --darkgray: #111517;
+    --black: #161925;
+    --darkblack: #0F111A;
+    --blackblack: #07080D;
+    --white: #F4F7F5;
+    --darkwhite: #95B29E;
+    --pink: #C191A1;
+    --red: #F03A47;
+
+    color: var(--white);
+}
+
+p {
+    font-family: var(--ff-body);
 }
 
 body {
     padding: 0px;
     margin: 0px;
-    background-color: rgb(1, 0, 63);
+    background-color: var(--blackblack);
 }

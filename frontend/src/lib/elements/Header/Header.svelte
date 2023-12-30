@@ -8,11 +8,11 @@
 
 <div id="header_container">
     <a href="/">
-        <div id="site_icon"></div>
         <h1 id="site_title">BestNotes</h1>
     </a>
     <div id="user_info_container">
-        <p>Logged in as <a href="#">{$user.username}</a></p>
+        <p>Logged in as</p>
+        <a href="#">{$user.username}</a>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
     #header_container {
         display: flex;
         align-items: center;
-        background-color: darkblue;
+        background-color: var(--black);
         margin: 0px;
     }
 
@@ -30,22 +30,21 @@
         align-items: center;
     }
 
+    #site_title {
+        margin-left: 1rem;
+    }
+
     #user_info_container {
         margin-left: auto;
         margin-right: 2rem;
         display: flex;
         flex-direction: row;
         align-items: center;
+        font-family: var(--ff-body);
     }
 
-    #site_icon {
-        width: 3rem;
-        height: 3rem;
-        margin-left: 1rem;
-        margin-right: 1rem;
-        mask: url(note_icon.svg) no-repeat center;
-        mask-size: 3rem 3rem;
-        background-color: white;;
+    #user_info_container p {
+        margin-right: 0.4rem;
     }
 
     #site_title {
@@ -54,6 +53,13 @@
 
     a {
         text-decoration: none;
-        color: white;
+        color: var(--darkwhite);
+        font-family: var(--ff-body);
+        font-weight: 600;
+    }
+
+    p {
+        color: var(--darkwhite);
+        font-family: var(--ff-body);
     }
 </style>

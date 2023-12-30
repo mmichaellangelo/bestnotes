@@ -93,21 +93,38 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 0.5rem;
-        background-color: rgb(13, 13, 87);
+        padding: 0px;
+        background-color: var(--darkblack);
     }
 
     #control_bar_container select {
         background: none;
-        color: white;
+        color: var(--darkwhite);
         height: fit-content;
         padding: 0.5rem;
     }
 
     option {
-        background-color: darkblue;
-        color: white;
+        background-color: var(--darkgray);
+        color: var(--darkwhite);
         padding: 0.5rem;
         height: fit-content;
+    }
+
+    option:active {
+        background-color: var(--gray);
+        color: var(--darkblack);
+    }
+
+    h3 {
+        font-family: var(--ff-header);
+        margin-left: 1rem;
+        margin-right: 1rem;
+        color: var(--darkwhite);
+    }
+
+    select, option {
+        font-family: var(--ff-body);
+        border: none;
     }
 </style>

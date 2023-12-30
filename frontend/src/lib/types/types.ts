@@ -1,4 +1,5 @@
 export interface Note {
+    id: number,
     title: string,
     body: string,
     date_created: Date,

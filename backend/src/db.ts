@@ -36,7 +36,6 @@ export async function getUserByID(id: number): Promise<User> {
     try {
         const result = await pool.query("SELECT * FROM account WHERE id = $1", [id]);
         try {
-            console.log(result.rows[0]);
             const user = result.rows[0];
     
             if (isUser(user)) {
@@ -56,7 +55,6 @@ export async function getUserByUsername(username: string): Promise<User> {
     try {
         const result = await pool.query("SELECT * FROM account WHERE username = $1", [username]);
         try {
-            console.log(result.rows[0]);
             const user = result.rows[0];
     
             if (isUser(user)) {
@@ -77,16 +75,13 @@ export async function createUser(email: string, username: string, password_plain
         throw new InvalidFormatError("Username cannot start with a number");
     }
     const password_hashed = await hashPassword(password_plaintext);
-    console.log(`Hashed password: ${password_hashed}`)
     const date_unformatted = new Date();
     const date_formatted = toPostgresTimestamp(date_unformatted);
-    console.log(`Date formatted: ${date_formatted}`);
     try {
         const result = await pool.query(`INSERT INTO account 
                                         (username, date_created, name, email) 
                                         VALUES ($1, $2, $3, $4)`, 
                                         [username, date_formatted, name, email]);
-        console.log(result);
         
     } catch (error) {
         throw new DatabaseError("Error creating user");
@@ -99,7 +94,6 @@ export async function deleteUserByID(id: number) {
         if (isUser(user)) {
             try {
                 const result = await pool.query("DELETE FROM account WHERE id=$1", [id]);
-                console.log(result);
             } catch (error: any) {
                 throw new DatabaseError(`${error.name}: ${error.message}`);
             }
@@ -146,7 +140,6 @@ export async function getNoteByID(id: number): Promise<Note> {
 }
 
 export async function getNotesByUserID(id: number): Promise<Note[]> {
-    console.log(`GETTING NOTES BY ID: ${id}`);
     try {
         const result = await pool.query("SELECT * FROM note WHERE author_id=$1", [id]);
         const notes = result.rows;

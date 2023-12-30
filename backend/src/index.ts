@@ -1,5 +1,5 @@
 import express from "express";
-import { createJournal, createNote, createUser, deleteUserByID, getNotesByUserID, getUserByID, getUserByUsername, updateNoteBody, updateNoteTitle, updateNoteTitleAndBody } from "./db";
+import { createJournal, createNote, createUser, deleteUserByID, getNoteByID, getNotesByUserID, getUserByID, getUserByUsername, updateNoteBody, updateNoteTitle, updateNoteTitleAndBody } from "./db";
 import { User } from "./types";
 
 const cors = require("cors");
@@ -90,6 +90,16 @@ app.get("/users/:userid/notes", async (req, res) => {
     try {
         const notes = await getNotesByUserID(parseInt(req.params.userid));
         res.status(200).send(notes);
+    } catch (error: any) {
+        res.status(500).send(`${error.name}: ${error.message}`);
+    }
+})
+
+// Get a note by id
+app.get("/notes/:noteid", async (req, res) => {
+    try {
+        const note = await getNoteByID(parseInt(req.params.noteid));
+        res.status(200).send(note);
     } catch (error: any) {
         res.status(500).send(`${error.name}: ${error.message}`);
     }

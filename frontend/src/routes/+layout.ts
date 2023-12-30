@@ -12,7 +12,6 @@ export async function load({ fetch }) {
             const userData = await userResponse.json();
             const notesResponse = await fetch (`http://backend_node_api:3000/users/${userID}/notes`)
             const notesData = await notesResponse.json();
-            console.log(notesData);
             return {
                 user: userData,
                 notes: notesData

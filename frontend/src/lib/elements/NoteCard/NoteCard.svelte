@@ -5,18 +5,31 @@
 
     let date = props.date_created;
 
-    $: {
-
-    }
 </script>
 
 <div class="notecard_container">
-    <h3>{props.title}</h3>
+    <a href={`/notes/${props.id}`}>
+        <h3>{props.title}</h3>
+    </a>
     <p>{date}</p>
     <p>{props.body}</p>
 </div>
 
 <style>
+
+    h3 {
+        font-family: var(--ff-header);
+        color: var(--darkwhite)
+    }
+
+    p {
+        font-family: var(--ff-body);
+        color: var(--white);
+    }
+
+    a {
+        text-decoration: none;
+    }
 
     .notecard_container {
         display: flex;
@@ -24,8 +37,9 @@
         max-width: 30rem;
         padding: 1rem;
         margin: 0.5rem;
-        background-color: rgb(10, 10, 116);
-        border-radius: 1rem;
-        border: 2px solid rgb(43, 58, 170);
+        background-color: var(--darkgray);
+        border-radius: 0.2rem;
+        border: 2px solid var(--gray);
+        color: var(--white);
     }
 </style>
