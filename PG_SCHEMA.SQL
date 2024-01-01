@@ -14,7 +14,7 @@ CREATE TABLE folder (
     author_id INT NOT NULL,
     date_created TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (author_id) REFERENCES account(id),
+    FOREIGN KEY (author_id) REFERENCES account(id) ON DELETE CASCADE,
     FOREIGN KEY (parent_folder_id) REFERENCES folder(id) ON DELETE CASCADE
 );
 
@@ -28,8 +28,8 @@ CREATE TABLE note (
     date_created TIMESTAMP NOT NULL,
     date_edited TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY (author_id) REFERENCES account(id),
-    FOREIGN KEY (folder_id) REFERENCES folder(id)
+    FOREIGN KEY (author_id) REFERENCES account(id) ON DELETE CASCADE,
+    FOREIGN KEY (folder_id) REFERENCES folder(id) ON DELETE CASCADE
 );
 
 CREATE TABLE account_auth (
@@ -37,7 +37,7 @@ CREATE TABLE account_auth (
     username VARCHAR(64) UNIQUE NOT NULL,
     password VARCHAR(256) NOT NULL,
     PRIMARY KEY (id), 
-    FOREIGN KEY (id) REFERENCES account(id)
+    FOREIGN KEY (id) REFERENCES account(id) ON DELETE CASCADE
 );
 
 CREATE TABLE auth_token (
@@ -45,5 +45,5 @@ CREATE TABLE auth_token (
     token TEXT,
     account_id INT UNIQUE,
     PRIMARY KEY (id),
-    FOREIGN KEY (account_id) REFERENCES account(id)
+    FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE
 );

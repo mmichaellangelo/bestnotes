@@ -5,6 +5,10 @@
     <h2>{data.note.title}</h2>
     <p>{data.note.date_created}</p>
     <p>{data.note.body}</p>
+
+    <form method="POST">
+        <button id="delete_button" formaction="?/delete">Delete Note</button>
+    </form>
 </div>
 
 <style>
@@ -19,5 +23,21 @@
 
     p {
         font-family: var(--ff-body);
+    }
+
+    #delete_button {
+        background-color: rgba(0,0,0,0);
+        color: red;
+        border: 2px solid red;
+        font-family: var(--ff-body);
+        padding: 0.25rem;
+        border-radius: 0.2rem;
+        cursor: pointer;
+    }
+
+    #delete_button:hover {
+        content: "";
+        background-color: red;
+        color: white;
     }
 </style>

@@ -1,5 +1,5 @@
 import express from "express";
-import { createJournal, createNote, createUser, deleteUserByID, getNoteByID, getNotesByUserID, getUserByID, getUserByUsername, updateNoteBody, updateNoteTitle, updateNoteTitleAndBody } from "./db";
+import { createJournal, createNote, createUser, deleteNoteByID, deleteUserByID, getNoteByID, getNotesByUserID, getUserByID, getUserByUsername, updateNoteBody, updateNoteTitle, updateNoteTitleAndBody } from "./db";
 import { User } from "./types";
 
 const cors = require("cors");
@@ -106,12 +106,16 @@ app.get("/notes/:noteid", async (req, res) => {
 })
 
 // Create a new note
-app.post("/users/:userid/notes", async (req, res) => {
+app.post("/notes", async (req, res) => {
+    console.log(req.body);
     const title = req.body.title;
     const body = req.body.body;
+    const userid = req.body.userid;
+
+    console.log(`Title: ${title}, Body: ${body}, UserID: ${userid}`);
 
     try {
-        await createNote(title, body, parseInt(req.params.userid));
+        await createNote(title, body, parseInt(userid));
         res.status(200).send("Note created");
     } catch (error: any) {
         res.status(500).send(`${error.name}: ${error.message}`);
@@ -161,6 +165,16 @@ app.patch("/users/:userid/notes/:noteid", async (req, res) => {
                 res.status(500).send(error.message);
             }
         }
+    }
+})
+
+// Delete a note
+app.delete("/notes/:noteid", (req, res) => {
+    try {
+        deleteNoteByID(parseInt(req.params.noteid));
+        res.status(200).send("Deleted note");
+    } catch (error: any) {
+        res.status(500).send(`${error.name}: ${error.message}`);
     }
 })
 

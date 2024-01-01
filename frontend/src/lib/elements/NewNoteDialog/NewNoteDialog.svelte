@@ -2,6 +2,7 @@
     let value = "";
     let inputFocused = false;
 
+
     function focus() {
         inputFocused = true;
     }
@@ -22,14 +23,35 @@
         const target = event.target as HTMLElement;
         const value = target.innerText;
     }
+
+    let showCheckmark = false;
+
+    $: {
+        if (value == ("" || "Type something")) {
+            showCheckmark = false;
+        } else {
+            showCheckmark = true;
+        }
+    }
 </script>
 
 <div id="newnote_container">
+
     <div id="newnote_inner_container">
         <div id="newnote_inner_container">
-            <div id="newnote_textarea" contenteditable="true" bind:innerHTML={value} on:focusin={focus} on:focusout={blur} on:input={handleChange}/>
+            <div id="newnote_textarea" contenteditable="true" bind:innerText={value} on:focusin={focus} on:focusout={blur} on:input={handleChange}/>
         </div>
     </div>
+
+<form method="POST">
+    <textarea bind:value={value} style={"display: none"} name="textarea"></textarea>
+    <div id="done_button_container">
+        {#if showCheckmark}
+            <button id="done_button" type="submit">
+            </button>
+        {/if}
+    </div>
+</form>
 </div>
 
 <style>
@@ -40,8 +62,12 @@
     }
 
     #newnote_container {
+        padding: none;
         display: flex;
+        margin-left: auto;
+        margin-right: auto;
         flex-direction: column;
+        width: 30rem;
     }
 
     #newnote_inner_container {
@@ -49,6 +75,7 @@
         align-items: center;
         margin-left: auto;
         margin-right: auto;
+        width: 30rem;
     }
 
     #newnote_textarea {
@@ -64,7 +91,35 @@
         width: 30rem;
     }
 
-    #newnote_textarea:focus {
+    #done_button_container {
+        width: 30rem;
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #done_button {
+        display: inline;
+        width: 2rem;
+        height: 2rem;
+        background-color: var(--darkwhite);
+        mask: url("checkmark_simple.svg");
+        mask-position: center;
+        mask-repeat: none;
+        mask-size: 2rem 2rem;
+        position: relative;
+        margin-top: 0.5rem;
+        margin-left: auto; 
+        margin-right: none;
+        cursor: pointer;
+    }
+
+    #done_button:focus {
+        background-color: white;
+    }
+
+    #done_button:active {
+        background-color: var(--pink);
     }
 
 

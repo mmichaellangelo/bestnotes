@@ -8,11 +8,12 @@
 
 <div id="header_container">
     <a href="/">
-        <h1 id="site_title">BestNotes</h1>
+        <h1 id="site_title">Logbook
+    </h1>
     </a>
     <div id="user_info_container">
         <p>Logged in as</p>
-        <a href="#">{$user.username}</a>
+        <a href={`/users/${$user.id}`}>{$user.username}</a>
     </div>
 </div>
 

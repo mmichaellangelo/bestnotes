@@ -116,7 +116,7 @@ export async function updateUserName(data: UserUpdateData, id: number) {
                 throw new DatabaseError("Error updating user");
         }
     } catch (error) {
-        throw new DatabaseError("Error updating user")
+        throw new DatabaseError("Error updating user");
     }
 
 }
@@ -143,11 +143,7 @@ export async function getNotesByUserID(id: number): Promise<Note[]> {
     try {
         const result = await pool.query("SELECT * FROM note WHERE author_id=$1", [id]);
         const notes = result.rows;
-        if (isNote(notes[0])) {
-            return notes;
-        } else {
-            throw new DatabaseError("Error: notes could not be retrieved");
-        }
+        return notes;
     } catch (error) {
         throw new DatabaseError("Internal Error");
     }
@@ -198,6 +194,14 @@ export async function updateNoteTitleAndBody(new_title: string, new_body: string
                                         [new_title, new_body, id]);
     } catch (error) {
         throw new DatabaseError("Error updating title");
+    }
+}
+
+export async function deleteNoteByID(id: number) {
+    try {
+        const result = await pool.query(`DELETE FROM note WHERE id=$1`, [id]);
+    } catch (error: any) {
+        throw new DatabaseError(`${error.namedb}: ${error.message}`);
     }
 }
 
