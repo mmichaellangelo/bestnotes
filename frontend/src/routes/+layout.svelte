@@ -5,6 +5,7 @@
     import { setContext } from "svelte";
     import { writable } from "svelte/store";
     import type { LayoutData } from "./$types";
+    import Explorer from "$lib/elements/Explorer/Explorer.svelte";
 
     export let data: LayoutData;
 
@@ -20,3 +21,4 @@
 <Header />
 
 <slot />
+

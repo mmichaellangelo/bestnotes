@@ -13,7 +13,7 @@ app.use(express.json());
 
 
 /*#######################
- ####### ROUTES ########
+####### ROUTES ########
 ######################*/
 
 // Login
@@ -22,6 +22,10 @@ app.post("/login", (req, res) => {
     const password_plaintext = req.body.get('password');
     res.sendStatus(200);
 })
+
+       /*--------------------*
+        *--- USER ROUTES ----*
+        *--------------------*/   
 
 // Create a new account
 app.post("/users", async (req, res) => {
@@ -84,6 +88,10 @@ app.delete("/users/:userid", async (req, res) => {
     }
     
 })
+
+       /*-------------------*
+        *--- NOTE ROUTES ---*
+        *-------------------*/  
 
 // Get all notes by user ID
 app.get("/users/:userid/notes", async (req, res) => {
@@ -178,6 +186,10 @@ app.delete("/notes/:noteid", (req, res) => {
     }
 })
 
+       /*----------------------*
+        *--- JOURNAL ROUTES ---*
+        *----------------------*/ 
+
 // Get all journals by user ID
 app.get("/users/:userid/journals", (req, res) => {
     try {
@@ -194,6 +206,19 @@ app.post("/users/:userid/journals", (req, res) => {
         res.status(200).send("Journal created");
     } catch (error: any) {
         res.status(500).send(`${error.name}: ${error.message}`);
+    }
+})
+
+       /*---------------------*
+        *--- FOLDER ROUTES ---*
+        *---------------------*/ 
+
+// Get all folders by user id
+app.get("/users/:userid/folders", (req, res) => {
+    try {
+        
+    } catch (error: any) {
+
     }
 })
 

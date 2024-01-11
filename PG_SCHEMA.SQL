@@ -7,21 +7,34 @@ CREATE TABLE account (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE folder (
+CREATE TABLE journal (
     id SERIAL,
-    parent_folder_id INT,
     title VARCHAR(256) NOT NULL,
     author_id INT NOT NULL,
     date_created TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (author_id) REFERENCES account(id) ON DELETE CASCADE,
-    FOREIGN KEY (parent_folder_id) REFERENCES folder(id) ON DELETE CASCADE
+);
+
+CREATE TABLE folder (
+    id SERIAL,
+    title VARCHAR(256) NOT NULL,
+    parent_folder_id INT,
+    journal_id INT NOT NULL,
+    author_id INT NOT NULL,
+    date_created TIMESTAMP NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (author_id) REFERENCES account(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_folder_id) REFERENCES folder(id) ON DELETE CASCADE,
+    FOREIGN KEY (journal_id) REFERENCES journal(id) ON DELETE CASCADE
+
 );
 
 CREATE TABLE note (
     id SERIAL,
     author_id INT NOT NULL,
     folder_id INT,
+    journal_id INT NOT NULL,
     title VARCHAR(256),
     body TEXT,
     tags VARCHAR(64)[],
@@ -29,7 +42,8 @@ CREATE TABLE note (
     date_edited TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (author_id) REFERENCES account(id) ON DELETE CASCADE,
-    FOREIGN KEY (folder_id) REFERENCES folder(id) ON DELETE CASCADE
+    FOREIGN KEY (folder_id) REFERENCES folder(id) ON DELETE CASCADE,
+    FOREIGN KEY (journal_id) REFERENCES journal(id) ON DELETE CASCADE
 );
 
 CREATE TABLE account_auth (

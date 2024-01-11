@@ -38,9 +38,8 @@
 <div id="newnote_container">
 
     <div id="newnote_inner_container">
-        <div id="newnote_inner_container">
-            <div id="newnote_textarea" contenteditable="true" bind:innerText={value} on:focusin={focus} on:focusout={blur} on:input={handleChange}/>
-        </div>
+        <div id="newnote_titlearea" contenteditable="true"></div>
+        <div id="newnote_textarea" contenteditable="true" bind:innerText={value} on:focusin={focus} on:focusout={blur} on:input={handleChange}/>
     </div>
 
 <form method="POST">
@@ -55,10 +54,11 @@
 </div>
 
 <style>
+
     #newnote_inner_container {
         display: flex;
         align-items: center;
-        margin-top: 1rem;
+        margin-top: 2rem;
     }
 
     #newnote_container {
@@ -89,6 +89,10 @@
         border: 2px solid var(--gray);
         box-shadow: none;
         width: 30rem;
+    }
+
+    #newnote_textarea:focus {
+        border: 2px solid var(--white);
     }
 
     #done_button_container {

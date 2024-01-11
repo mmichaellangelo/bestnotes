@@ -34,6 +34,7 @@
     .notecard_container {
         display: flex;
         flex-direction: column;
+        word-wrap: break-word;
         max-width: 30rem;
         padding: 1rem;
         margin: 0.5rem;

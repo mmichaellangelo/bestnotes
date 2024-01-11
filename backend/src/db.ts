@@ -206,6 +206,24 @@ export async function deleteNoteByID(id: number) {
 }
 
 /*
+*|  FOLDER FUNCTIONS
+*/
+
+export async function getFolderByID(id: number) {
+    try {
+        const result = await pool.query("SELECT * FROM folder WHERE id=$1", [id]);
+        const folder = result.rows[0];
+        if (isNote(note)) {
+            return note;
+        } else {
+            throw new DatabaseError("Error: note could not be retrieved");
+        }
+    } catch (error) {
+        throw new DatabaseError("Internal Error");
+    }
+}
+
+/*
 *|  JOURNAL FUNCTIONS
 */
 
